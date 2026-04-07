@@ -30,7 +30,7 @@ const pescadores = Object.entries(archivos)
 ---
 
 <Layout title="Pescadores — CDF-LAMORAÑA">
-  <main class="min-h-screen bg-[#0f1117] pb-16">
+  <main class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50 pb-16">
 
     <!-- Cabecera -->
     <div class="text-center px-6 pt-12 pb-8 border-b border-white/[0.07]">
@@ -57,7 +57,7 @@ const pescadores = Object.entries(archivos)
           <article class="bg-[#1a1d27] rounded-2xl overflow-hidden border border-white/[0.07] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40">
 
             <!-- Foto -->
-            <div class="h-60 overflow-hidden bg-[#0f1117]">
+            <div class="h-60 overflow-hidden bg-gradient-to-b from-sky-50 via-white to-blue-50">
               <img
                 src={typeof p.src === 'string' ? p.src : (p.src as any).src}
                 alt={`Foto de ${p.nombre}`}
