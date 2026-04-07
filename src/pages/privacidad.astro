@@ -1,81 +1,161 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 
 const derechos = [
-  { letra: 'A', nombre: 'Acceso',        desc: 'Conocer qué datos personales se tratan sobre ti.' },
-  { letra: 'R', nombre: 'Rectificación', desc: 'Corregir datos inexactos o incompletos.' },
-  { letra: 'S', nombre: 'Supresión',     desc: 'Solicitar la eliminación cuando ya no sean necesarios.' },
-  { letra: 'L', nombre: 'Limitación',    desc: 'Restringir el tratamiento en determinadas circunstancias.' },
-  { letra: 'P', nombre: 'Portabilidad',  desc: 'Recibir tus datos en formato estructurado y legible.' },
-  { letra: 'O', nombre: 'Oposición',     desc: 'Oponerte al tratamiento basado en interés legítimo.' },
+  {
+    letra: "A",
+    nombre: "Acceso",
+    desc: "Conocer qué datos personales se tratan sobre ti.",
+  },
+  {
+    letra: "R",
+    nombre: "Rectificación",
+    desc: "Corregir datos inexactos o incompletos.",
+  },
+  {
+    letra: "S",
+    nombre: "Supresión",
+    desc: "Solicitar la eliminación cuando ya no sean necesarios.",
+  },
+  {
+    letra: "L",
+    nombre: "Limitación",
+    desc: "Restringir el tratamiento en determinadas circunstancias.",
+  },
+  {
+    letra: "P",
+    nombre: "Portabilidad",
+    desc: "Recibir tus datos en formato estructurado y legible.",
+  },
+  {
+    letra: "O",
+    nombre: "Oposición",
+    desc: "Oponerte al tratamiento basado en interés legítimo.",
+  },
 ];
 ---
 
 <Layout title="Privacidad y LOPD — CDF-LAMORAÑA">
-  <main class="min-h-screen bg-[#0f1117] pb-16">
-
+  <main
+    class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50 pb-16"
+  >
     <!-- Cabecera -->
     <div class="text-center px-6 pt-12 pb-8 border-b border-white/[0.07]">
-      <a href="/" class="inline-block text-blue-400 hover:underline text-sm mb-4">← Inicio</a>
+      <a
+        href="/"
+        class="inline-block text-blue-400 hover:underline text-sm mb-4"
+        >← Inicio</a
+      >
       <h1 class="text-4xl font-extrabold mb-2">🔒 Privacidad y LOPD</h1>
       <p class="text-white/35 text-sm">Última actualización: abril de 2025</p>
     </div>
 
     <div class="max-w-3xl mx-auto px-6 pt-10 space-y-10">
-
       <!-- 1. Responsable -->
       <section>
-        <h2 class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4">1. Responsable del tratamiento</h2>
-        <div class="bg-[#1a1d27] border border-white/[0.07] rounded-xl p-5 space-y-2">
-          {[
-            ['Nombre',    'Sociedad Deportiva de Pesca CDF-LAMORAÑA'],
-            ['CIF',       'G-XXXXXXXX'],
-            ['Domicilio', 'C/ Ejemplo, 1 — 00000 Localidad (Provincia)'],
-            ['Correo',    'contacto@cdf-lamorana.es'],
-          ].map(([label, value]) => (
-            <div class="flex gap-4 text-sm">
-              <span class="text-white/40 w-24 shrink-0">{label}</span>
-              <span class="text-white/80">{value}</span>
-            </div>
-          ))}
+        <h2
+          class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4"
+        >
+          1. Responsable del tratamiento
+        </h2>
+        <div
+          class="bg-[#1a1d27] border border-white/[0.07] rounded-xl p-5 space-y-2"
+        >
+          {
+            [
+              ["Nombre", "Sociedad Deportiva de Pesca CDF-LAMORAÑA"],
+              ["CIF", "G-XXXXXXXX"],
+              ["Domicilio", "C/ Ejemplo, 1 — 00000 Localidad (Provincia)"],
+              ["Correo", "contacto@cdf-lamorana.es"],
+            ].map(([label, value]) => (
+              <div class="flex gap-4 text-sm">
+                <span class="text-white/40 w-24 shrink-0">{label}</span>
+                <span class="text-white/80">{value}</span>
+              </div>
+            ))
+          }
         </div>
       </section>
 
       <!-- 2. Normativa -->
       <section>
-        <h2 class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4">2. Normativa aplicable</h2>
+        <h2
+          class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4"
+        >
+          2. Normativa aplicable
+        </h2>
         <ul class="space-y-2 text-white/70 text-sm pl-4 leading-relaxed">
-          <li><strong class="text-white/90">Reglamento (UE) 2016/679</strong> — RGPD, de 27 de abril de 2016.</li>
-          <li><strong class="text-white/90">Ley Orgánica 3/2018</strong> — LOPDGDD, de 5 de diciembre.</li>
-          <li><strong class="text-white/90">Ley 34/2002</strong> — LSSI-CE, de 11 de julio.</li>
+          <li>
+            <strong class="text-white/90">Reglamento (UE) 2016/679</strong> — RGPD,
+            de 27 de abril de 2016.
+          </li>
+          <li>
+            <strong class="text-white/90">Ley Orgánica 3/2018</strong> — LOPDGDD,
+            de 5 de diciembre.
+          </li>
+          <li>
+            <strong class="text-white/90">Ley 34/2002</strong> — LSSI-CE, de 11 de
+            julio.
+          </li>
         </ul>
       </section>
 
       <!-- 3. Finalidad -->
       <section>
-        <h2 class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4">3. Finalidad del tratamiento</h2>
+        <h2
+          class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4"
+        >
+          3. Finalidad del tratamiento
+        </h2>
         <div class="overflow-x-auto rounded-xl border border-white/[0.07]">
           <table class="w-full text-sm">
             <thead>
               <tr class="bg-white/[0.05] border-b border-white/[0.08]">
-                <th class="text-left px-4 py-3 text-xs uppercase tracking-wider text-white/40 font-semibold">Finalidad</th>
-                <th class="text-left px-4 py-3 text-xs uppercase tracking-wider text-white/40 font-semibold">Base legal</th>
-                <th class="text-left px-4 py-3 text-xs uppercase tracking-wider text-white/40 font-semibold">Plazo</th>
+                <th
+                  class="text-left px-4 py-3 text-xs uppercase tracking-wider text-white/40 font-semibold"
+                  >Finalidad</th
+                >
+                <th
+                  class="text-left px-4 py-3 text-xs uppercase tracking-wider text-white/40 font-semibold"
+                  >Base legal</th
+                >
+                <th
+                  class="text-left px-4 py-3 text-xs uppercase tracking-wider text-white/40 font-semibold"
+                  >Plazo</th
+                >
               </tr>
             </thead>
             <tbody class="divide-y divide-white/[0.05]">
-              {[
-                ['Gestión de socios',                    'Ejecución de contrato',         'Alta + 5 años'],
-                ['Competiciones y eventos',              'Interés legítimo',               'Actividad + 3 años'],
-                ['Comunicaciones de la sociedad',        'Consentimiento del interesado',  'Hasta retirada'],
-                ['Obligaciones legales y fiscales',      'Obligación legal',               'Mín. 6 años'],
-              ].map(([fin, base, plazo]) => (
-                <tr class="bg-[#1a1d27]">
-                  <td class="px-4 py-3 text-white/75">{fin}</td>
-                  <td class="px-4 py-3 text-white/55 text-xs">{base}</td>
-                  <td class="px-4 py-3 text-white/55 text-xs">{plazo}</td>
-                </tr>
-              ))}
+              {
+                [
+                  [
+                    "Gestión de socios",
+                    "Ejecución de contrato",
+                    "Alta + 5 años",
+                  ],
+                  [
+                    "Competiciones y eventos",
+                    "Interés legítimo",
+                    "Actividad + 3 años",
+                  ],
+                  [
+                    "Comunicaciones de la sociedad",
+                    "Consentimiento del interesado",
+                    "Hasta retirada",
+                  ],
+                  [
+                    "Obligaciones legales y fiscales",
+                    "Obligación legal",
+                    "Mín. 6 años",
+                  ],
+                ].map(([fin, base, plazo]) => (
+                  <tr class="bg-[#1a1d27]">
+                    <td class="px-4 py-3 text-white/75">{fin}</td>
+                    <td class="px-4 py-3 text-white/55 text-xs">{base}</td>
+                    <td class="px-4 py-3 text-white/55 text-xs">{plazo}</td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>
@@ -83,68 +163,114 @@ const derechos = [
 
       <!-- 4. Categorías -->
       <section>
-        <h2 class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4">4. Categorías de datos tratados</h2>
+        <h2
+          class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4"
+        >
+          4. Categorías de datos tratados
+        </h2>
         <ul class="space-y-1.5 text-white/70 text-sm pl-4 leading-relaxed">
-          <li>Datos identificativos: nombre, apellidos, DNI/NIF, fotografía.</li>
-          <li>Datos de contacto: dirección postal, correo electrónico, teléfono.</li>
+          <li>
+            Datos identificativos: nombre, apellidos, DNI/NIF, fotografía.
+          </li>
+          <li>
+            Datos de contacto: dirección postal, correo electrónico, teléfono.
+          </li>
           <li>Datos de la licencia de pesca y permisos federativos.</li>
-          <li>Participación en competiciones y eventos (resultados, clasificaciones).</li>
+          <li>
+            Participación en competiciones y eventos (resultados,
+            clasificaciones).
+          </li>
         </ul>
-        <p class="text-white/50 text-sm mt-3">No se tratan categorías especiales de datos salvo obligación legal expresa.</p>
+        <p class="text-white/50 text-sm mt-3">
+          No se tratan categorías especiales de datos salvo obligación legal
+          expresa.
+        </p>
       </section>
 
       <!-- 5. Destinatarios -->
       <section>
-        <h2 class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4">5. Destinatarios de los datos</h2>
+        <h2
+          class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4"
+        >
+          5. Destinatarios de los datos
+        </h2>
         <p class="text-white/70 leading-relaxed text-sm">
-          Los datos no se cederán a terceros salvo obligación legal o cuando sea necesario para la prestación del servicio asociativo,
-          como la Federación de Pesca o las Administraciones Públicas competentes.
-          No se realizan transferencias internacionales fuera del Espacio Económico Europeo.
+          Los datos no se cederán a terceros salvo obligación legal o cuando sea
+          necesario para la prestación del servicio asociativo, como la
+          Federación de Pesca o las Administraciones Públicas competentes. No se
+          realizan transferencias internacionales fuera del Espacio Económico
+          Europeo.
         </p>
       </section>
 
       <!-- 6. Derechos -->
       <section>
-        <h2 class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4">6. Derechos de los interesados</h2>
+        <h2
+          class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4"
+        >
+          6. Derechos de los interesados
+        </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-          {derechos.map((d) => (
-            <div class="flex gap-3 items-start bg-[#1a1d27] border border-white/[0.07] rounded-xl p-4">
-              <span class="w-8 h-8 rounded-full bg-blue-500/15 text-blue-400 text-sm font-extrabold flex items-center justify-center shrink-0">
-                {d.letra}
-              </span>
-              <div>
-                <p class="font-semibold text-sm text-white mb-0.5">{d.nombre}</p>
-                <p class="text-xs text-white/50 leading-relaxed">{d.desc}</p>
+          {
+            derechos.map((d) => (
+              <div class="flex gap-3 items-start bg-[#1a1d27] border border-white/[0.07] rounded-xl p-4">
+                <span class="w-8 h-8 rounded-full bg-blue-500/15 text-blue-400 text-sm font-extrabold flex items-center justify-center shrink-0">
+                  {d.letra}
+                </span>
+                <div>
+                  <p class="font-semibold text-sm text-white mb-0.5">
+                    {d.nombre}
+                  </p>
+                  <p class="text-xs text-white/50 leading-relaxed">{d.desc}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
         <p class="text-white/65 text-sm leading-relaxed">
-          Para ejercer estos derechos, dirígete por escrito a la dirección o correo del apartado 1, adjuntando copia de tu DNI.
-          Si consideras que el tratamiento no es conforme, puedes reclamar ante la
-          <strong class="text-white/80">AEPD</strong> en <a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">www.aepd.es</a>.
+          Para ejercer estos derechos, dirígete por escrito a la dirección o
+          correo del apartado 1, adjuntando copia de tu DNI. Si consideras que
+          el tratamiento no es conforme, puedes reclamar ante la
+          <strong class="text-white/80">AEPD</strong> en <a
+            href="https://www.aepd.es"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-400 hover:underline">www.aepd.es</a
+          >.
         </p>
       </section>
 
       <!-- 7. Seguridad -->
       <section>
-        <h2 class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4">7. Medidas de seguridad</h2>
+        <h2
+          class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4"
+        >
+          7. Medidas de seguridad
+        </h2>
         <p class="text-white/70 leading-relaxed text-sm">
-          La sociedad ha adoptado las medidas técnicas y organizativas necesarias para garantizar la seguridad e integridad de los datos,
-          previniendo su alteración, pérdida o acceso no autorizado, conforme al estado actual de la tecnología.
+          La sociedad ha adoptado las medidas técnicas y organizativas
+          necesarias para garantizar la seguridad e integridad de los datos,
+          previniendo su alteración, pérdida o acceso no autorizado, conforme al
+          estado actual de la tecnología.
         </p>
       </section>
 
       <!-- 8. Contacto -->
       <section>
-        <h2 class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4">8. Contacto</h2>
+        <h2
+          class="text-lg font-bold text-blue-400 border-b border-blue-400/20 pb-2 mb-4"
+        >
+          8. Contacto
+        </h2>
         <p class="text-white/70 leading-relaxed text-sm">
-          Para cualquier consulta sobre el tratamiento de tus datos, puedes contactarnos a través de la
-          <a href="/contacto" class="text-blue-400 hover:underline">página de contacto</a>
+          Para cualquier consulta sobre el tratamiento de tus datos, puedes
+          contactarnos a través de la
+          <a href="/contacto" class="text-blue-400 hover:underline"
+            >página de contacto</a
+          >
           o en <strong class="text-white/80">contacto@cdf-lamorana.es</strong>.
         </p>
       </section>
-
     </div>
   </main>
 </Layout>

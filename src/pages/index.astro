@@ -1,15 +1,17 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import BentoGrid from '../components/BentoGrid.astro';
+import Layout from "../layouts/Layout.astro";
+import BentoGrid from "../components/BentoGrid.astro";
 ---
 
 <Layout title="CDF-LAMORAÑA">
-  <main class="min-h-screen bg-[#0f1117]">
+  <main class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50">
     <header class="text-center pt-12 pb-4 px-6">
-      <h1 class="text-5xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-purple-400 to-white bg-clip-text text-transparent mb-2">
+      <h1
+        class="text-5xl font-extrabold tracking-tight bg-gradient-to-r from-sky-700 via-cyan-600 to-teal-600 bg-clip-text text-transparent mb-2"
+      >
         CDF-LAMORAÑA
       </h1>
-      <p class="text-white/40 text-lg">Sociedad Deportiva de Pesca</p>
+      <p class="text-slate-600 text-lg">Sociedad Deportiva de Pesca</p>
     </header>
     <BentoGrid />
   </main>
