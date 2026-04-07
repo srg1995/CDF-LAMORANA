@@ -1,0 +1,103 @@
+---
+const items = [
+  {
+    title: 'Pescadores',
+    description: 'Conoce a los socios de la sociedad',
+    href: '/pescadores',
+    emoji: '🎣',
+    bg: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900&q=80',
+    size: 'large',
+  },
+  {
+    title: 'Clasificaciones',
+    description: 'Resultados de competiciones',
+    href: '/clasificaciones',
+    emoji: '🏆',
+    bg: 'https://images.unsplash.com/photo-1559526324-593bc073d938?w=600&q=80',
+    size: 'small',
+  },
+  {
+    title: 'Eventos',
+    description: 'Días de pesca, limpieza y más',
+    href: '/eventos',
+    emoji: '📅',
+    bg: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80',
+    size: 'small',
+  },
+  {
+    title: 'Contacto',
+    description: 'Ponte en contacto con nosotros',
+    href: '/contacto',
+    emoji: '✉️',
+    bg: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80',
+    size: 'wide',
+  },
+  {
+    title: 'Privacidad y LOPD',
+    description: 'Protección de datos',
+    href: '/privacidad',
+    emoji: '🔒',
+    bg: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80',
+    size: 'small',
+  },
+  {
+    title: 'Cookies',
+    description: 'Política de cookies',
+    href: '/cookies',
+    emoji: '🍪',
+    bg: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+    size: 'small',
+  },
+];
+
+const sizeClasses: Record<string, string> = {
+  large: 'col-span-2 row-span-2 min-h-[420px]',
+  wide:  'col-span-2 min-h-[190px]',
+  small: 'col-span-1 min-h-[190px]',
+};
+---
+
+<section class="grid grid-cols-4 gap-4 p-6 max-w-6xl mx-auto">
+  {items.map((item) => (
+    <a
+      href={item.href}
+      class={`group relative rounded-2xl overflow-hidden bg-cover bg-center flex items-end border border-white/5 transition-all duration-300 hover:scale-[1.025] hover:shadow-2xl hover:shadow-black/50 ${sizeClasses[item.size]}`}
+      style={`background-image: url('${item.bg}')`}
+    >
+      {/* Overlay */}
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 transition-all duration-300" />
+
+      {/* Content */}
+      <div class="relative z-10 p-5">
+        <span class={`block mb-1 leading-none ${item.size === 'large' ? 'text-4xl' : 'text-2xl'}`}>
+          {item.emoji}
+        </span>
+        <h2 class={`font-bold leading-tight text-white mb-1 ${item.size === 'large' ? 'text-3xl' : 'text-lg'}`}>
+          {item.title}
+        </h2>
+        <p class={`text-white/70 ${item.size === 'large' ? 'text-base' : 'text-sm'}`}>
+          {item.description}
+        </p>
+      </div>
+    </a>
+  ))}
+</section>
+
+<style>
+  /* Responsive: tablet */
+  @media (max-width: 860px) {
+    section {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .col-span-2 { grid-column: span 2; }
+    .row-span-2 { grid-row: span 1; min-height: 300px !important; }
+  }
+
+  /* Responsive: móvil */
+  @media (max-width: 500px) {
+    section {
+      grid-template-columns: 1fr !important;
+    }
+    a { grid-column: span 1 !important; grid-row: span 1 !important; min-height: 200px !important; }
+  }
+</style>

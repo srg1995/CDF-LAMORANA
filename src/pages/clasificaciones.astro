@@ -1,0 +1,155 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+type TipoModalidad = 'coup' | 'spinning' | 'carpfishing' | 'mosca';
+
+interface Clasificado {
+  pos: number;
+  nombre: string;
+  captura: string;
+  puntos: number;
+}
+
+interface Competicion {
+  id: string;
+  nombre: string;
+  fecha: string;
+  modalidad: string;
+  lugar: string;
+  participantes: number;
+  clasificacion: Clasificado[];
+}
+
+const competiciones: Competicion[] = [
+  {
+    id: 'c1',
+    nombre: 'Campeonato de Primavera 2025',
+    fecha: '15 de marzo de 2025',
+    modalidad: 'Pesca al coup',
+    lugar: 'Río Lamoraña — Tramo Norte',
+    participantes: 12,
+    clasificacion: [
+      { pos: 1, nombre: 'Carlos Martínez', captura: '4,850 kg', puntos: 100 },
+      { pos: 2, nombre: 'Javier López',    captura: '4,210 kg', puntos: 85  },
+      { pos: 3, nombre: 'Luis Fernández',  captura: '3,990 kg', puntos: 75  },
+      { pos: 4, nombre: 'Marcos Ruiz',     captura: '3,640 kg', puntos: 65  },
+      { pos: 5, nombre: 'Antonio García',  captura: '3,100 kg', puntos: 55  },
+    ],
+  },
+  {
+    id: 'c2',
+    nombre: 'Trofeo San Pedro 2025',
+    fecha: '29 de junio de 2025',
+    modalidad: 'Spinning',
+    lugar: 'Pantano de Valdepeñas',
+    participantes: 8,
+    clasificacion: [
+      { pos: 1, nombre: 'Marcos Ruiz',     captura: '6 piezas', puntos: 100 },
+      { pos: 2, nombre: 'Carlos Martínez', captura: '5 piezas', puntos: 85  },
+      { pos: 3, nombre: 'Pedro Sánchez',   captura: '4 piezas', puntos: 75  },
+      { pos: 4, nombre: 'Luis Fernández',  captura: '3 piezas', puntos: 65  },
+    ],
+  },
+  {
+    id: 'c3',
+    nombre: 'Copa de Otoño 2024',
+    fecha: '12 de octubre de 2024',
+    modalidad: 'Carpfishing',
+    lugar: 'Lago del Parque Natural',
+    participantes: 10,
+    clasificacion: [
+      { pos: 1, nombre: 'Javier López',    captura: '12,500 kg', puntos: 100 },
+      { pos: 2, nombre: 'Antonio García',  captura: '11,200 kg', puntos: 85  },
+      { pos: 3, nombre: 'Carlos Martínez', captura: '10,800 kg', puntos: 75  },
+      { pos: 4, nombre: 'Marcos Ruiz',     captura: '9,350 kg',  puntos: 65  },
+    ],
+  },
+  {
+    id: 'c4',
+    nombre: 'Campeonato Anual 2024',
+    fecha: '20 de septiembre de 2024',
+    modalidad: 'Pesca a mosca',
+    lugar: 'Río Lamoraña — Tramo Sur',
+    participantes: 14,
+    clasificacion: [
+      { pos: 1, nombre: 'Carlos Martínez', captura: '8 piezas', puntos: 100 },
+      { pos: 2, nombre: 'Luis Fernández',  captura: '7 piezas', puntos: 85  },
+      { pos: 3, nombre: 'Javier López',    captura: '6 piezas', puntos: 75  },
+      { pos: 4, nombre: 'Antonio García',  captura: '5 piezas', puntos: 65  },
+      { pos: 5, nombre: 'Marcos Ruiz',     captura: '4 piezas', puntos: 55  },
+    ],
+  },
+];
+
+const medallas = ['🥇', '🥈', '🥉'];
+
+const rowBg: Record<number, string> = {
+  1: 'bg-yellow-500/10',
+  2: 'bg-slate-400/5',
+  3: 'bg-amber-700/8',
+};
+---
+
+<Layout title="Clasificaciones — CDF-LAMORAÑA">
+  <main class="min-h-screen bg-[#0f1117] pb-16">
+
+    <!-- Cabecera -->
+    <div class="text-center px-6 pt-12 pb-8 border-b border-white/[0.07]">
+      <a href="/" class="inline-block text-blue-400 hover:underline text-sm mb-4">← Inicio</a>
+      <h1 class="text-4xl font-extrabold mb-2">🏆 Clasificaciones</h1>
+      <p class="text-white/50">Resultados de las competiciones de la sociedad</p>
+    </div>
+
+    <!-- Acordeones -->
+    <div class="max-w-3xl mx-auto px-6 pt-8 space-y-3">
+      {competiciones.map((comp) => (
+        <details class="group bg-[#1a1d27] border border-white/[0.07] rounded-2xl overflow-hidden open:border-blue-500/30 transition-all">
+
+          <!-- Cabecera del acordeón -->
+          <summary class="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none hover:bg-white/[0.03] transition-colors">
+            <div class="flex flex-col gap-1.5 min-w-0">
+              <span class="font-bold text-base leading-tight">{comp.nombre}</span>
+              <div class="flex flex-wrap gap-2 items-center text-xs text-white/45">
+                <span class="bg-blue-500/15 text-blue-400 border border-blue-500/25 px-2.5 py-0.5 rounded-full font-semibold">
+                  {comp.modalidad}
+                </span>
+                <span>📅 {comp.fecha}</span>
+                <span>📍 {comp.lugar}</span>
+              </div>
+            </div>
+            <span class="text-white/30 text-xs shrink-0 transition-transform duration-300 group-open:rotate-180">▼</span>
+          </summary>
+
+          <!-- Cuerpo -->
+          <div class="px-6 pb-6 border-t border-white/[0.06]">
+            <p class="text-xs text-white/35 mt-4 mb-3">👤 {comp.participantes} participantes</p>
+
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-white/[0.08]">
+                  <th class="text-center text-xs uppercase tracking-wider text-white/35 font-semibold pb-2 w-12">Pos.</th>
+                  <th class="text-left text-xs uppercase tracking-wider text-white/35 font-semibold pb-2">Pescador</th>
+                  <th class="text-left text-xs uppercase tracking-wider text-white/35 font-semibold pb-2">Captura</th>
+                  <th class="text-center text-xs uppercase tracking-wider text-white/35 font-semibold pb-2 w-20">Puntos</th>
+                </tr>
+              </thead>
+              <tbody>
+                {comp.clasificacion.map((fila) => (
+                  <tr class={`border-b border-white/[0.05] last:border-0 ${rowBg[fila.pos] ?? ''}`}>
+                    <td class="text-center py-3 text-lg">
+                      {fila.pos <= 3 ? medallas[fila.pos - 1] : fila.pos}
+                    </td>
+                    <td class="py-3 font-semibold text-white">{fila.nombre}</td>
+                    <td class="py-3 text-white/70">{fila.captura}</td>
+                    <td class="py-3 text-center font-bold text-blue-400">{fila.puntos}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+      ))}
+    </div>
+
+  </main>
+</Layout>

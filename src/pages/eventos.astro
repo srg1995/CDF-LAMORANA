@@ -1,0 +1,228 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+type TipoEvento = 'pesca' | 'limpieza' | 'montaje' | 'reunion' | 'formacion';
+
+interface Evento {
+  id: number;
+  titulo: string;
+  tipo: TipoEvento;
+  fecha: string;
+  hora: string;
+  lugar: string;
+  descripcion: string;
+  plazas: number | null;
+  inscripcion: boolean;
+}
+
+const eventos: Evento[] = [
+  {
+    id: 1,
+    titulo: 'Día de Pesca en el Río Lamoraña',
+    tipo: 'pesca',
+    fecha: '2025-04-20',
+    hora: '07:00',
+    lugar: 'Tramo Norte — Río Lamoraña',
+    descripcion: 'Jornada de pesca libre para todos los socios. Se realizará suelta de piezas al finalizar el día. Recordad traer el permiso de pesca en vigor.',
+    plazas: 20,
+    inscripcion: true,
+  },
+  {
+    id: 2,
+    titulo: 'Jornada de Limpieza del Río',
+    tipo: 'limpieza',
+    fecha: '2025-04-27',
+    hora: '09:00',
+    lugar: 'Ribera del Río Lamoraña — Km 3 al Km 7',
+    descripcion: 'Recogida de residuos en las orillas del río. La sociedad facilita guantes, bolsas y herramientas. Actividad abierta a familiares y no socios.',
+    plazas: null,
+    inscripcion: false,
+  },
+  {
+    id: 3,
+    titulo: 'Montaje de Pasos y Señalética',
+    tipo: 'montaje',
+    fecha: '2025-05-10',
+    hora: '08:30',
+    lugar: 'Accesos al coto — Puntos A, B y C',
+    descripcion: 'Instalación de nuevos pasos de madera y señales informativas en los accesos al coto. Se necesitan voluntarios con vehículo.',
+    plazas: 8,
+    inscripcion: true,
+  },
+  {
+    id: 4,
+    titulo: 'Jornada de Pesca de Carpas',
+    tipo: 'pesca',
+    fecha: '2025-05-17',
+    hora: '06:00',
+    lugar: 'Pantano de Valdepeñas',
+    descripcion: 'Jornada especial de carpfishing de 24 horas. Modalidad captura y suelta. Habrá trofeo para el mayor ejemplar.',
+    plazas: 14,
+    inscripcion: true,
+  },
+  {
+    id: 5,
+    titulo: 'Reunión General de Socios',
+    tipo: 'reunion',
+    fecha: '2025-06-05',
+    hora: '19:30',
+    lugar: 'Casa de la Cultura — Salón Principal',
+    descripcion: 'Asamblea ordinaria anual. Aprobación de cuentas, elección de cargos y presentación del plan de actividades del segundo semestre.',
+    plazas: null,
+    inscripcion: false,
+  },
+  {
+    id: 6,
+    titulo: 'Curso de Iniciación a la Pesca a Mosca',
+    tipo: 'formacion',
+    fecha: '2025-06-14',
+    hora: '10:00',
+    lugar: 'Tramo Sur — Río Lamoraña',
+    descripcion: 'Taller práctico de pesca a mosca para principiantes. Se proporcionan cañas y material. Plazas muy limitadas.',
+    plazas: 6,
+    inscripcion: true,
+  },
+];
+
+interface TipoConfig {
+  emoji: string;
+  label: string;
+  color: string;    // borde izquierdo y acentos
+  badge: string;    // clases Tailwind del badge
+  border: string;   // clase de borde izquierdo
+}
+
+const config: Record<TipoEvento, TipoConfig> = {
+  pesca:     { emoji: '🎣', label: 'Día de pesca',  color: '#3b82f6', badge: 'bg-blue-500/15 text-blue-400 border-blue-500/25',   border: 'border-l-blue-500'   },
+  limpieza:  { emoji: '🌿', label: 'Limpieza',       color: '#22c55e', badge: 'bg-green-500/15 text-green-400 border-green-500/25', border: 'border-l-green-500'  },
+  montaje:   { emoji: '🔧', label: 'Montaje',        color: '#f59e0b', badge: 'bg-amber-500/15 text-amber-400 border-amber-500/25', border: 'border-l-amber-500'  },
+  reunion:   { emoji: '📋', label: 'Reunión',        color: '#a78bfa', badge: 'bg-violet-500/15 text-violet-400 border-violet-500/25', border: 'border-l-violet-500' },
+  formacion: { emoji: '📚', label: 'Formación',      color: '#f43f5e', badge: 'bg-rose-500/15 text-rose-400 border-rose-500/25',   border: 'border-l-rose-500'   },
+};
+
+function formatFecha(iso: string): string {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('es-ES', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+  });
+}
+
+const hoy = new Date();
+const proximos = eventos.filter(e => new Date(e.fecha) >= hoy);
+const pasados  = eventos.filter(e => new Date(e.fecha) <  hoy);
+---
+
+<Layout title="Eventos — CDF-LAMORAÑA">
+  <main class="min-h-screen bg-[#0f1117] pb-16">
+
+    <!-- Cabecera -->
+    <div class="text-center px-6 pt-12 pb-8 border-b border-white/[0.07]">
+      <a href="/" class="inline-block text-blue-400 hover:underline text-sm mb-4">← Inicio</a>
+      <h1 class="text-4xl font-extrabold mb-2">📅 Eventos</h1>
+      <p class="text-white/50 mb-5">Actividades y calendario de la sociedad</p>
+
+      <!-- Leyenda -->
+      <div class="flex flex-wrap justify-center gap-2">
+        {(Object.values(config) as TipoConfig[]).map((c) => (
+          <span class={`text-xs px-3 py-1 rounded-full border font-medium ${c.badge}`}>
+            {c.emoji} {c.label}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-6 pt-8 space-y-10">
+
+      <!-- Próximos -->
+      {proximos.length > 0 && (
+        <section>
+          <h2 class="text-xs font-bold uppercase tracking-widest text-white/30 mb-4 pb-2 border-b border-white/[0.06]">
+            Próximos eventos
+          </h2>
+          <div class="space-y-3">
+            {proximos.map((ev) => {
+              const cfg = config[ev.tipo];
+              return (
+                <article class={`grid grid-cols-[180px_1fr] bg-[#1a1d27] rounded-2xl border border-white/[0.07] border-l-4 ${cfg.border} overflow-hidden hover:shadow-xl hover:shadow-black/30 transition-shadow`}>
+                  <!-- Fecha -->
+                  <div class="flex flex-col items-center justify-center gap-1.5 px-4 py-5 bg-white/[0.02] border-r border-white/[0.05] text-center">
+                    <span class="text-3xl">{cfg.emoji}</span>
+                    <time datetime={ev.fecha} class="text-xs text-white/50 leading-snug capitalize">
+                      {formatFecha(ev.fecha)}
+                    </time>
+                    <span class="text-xs font-bold" style={`color: ${cfg.color}`}>⏰ {ev.hora} h</span>
+                  </div>
+                  <!-- Info -->
+                  <div class="p-5">
+                    <div class="flex items-start justify-between gap-3 mb-1">
+                      <h3 class="font-bold text-base leading-snug">{ev.titulo}</h3>
+                      <span class={`shrink-0 text-xs px-2.5 py-0.5 rounded-full border font-semibold ${cfg.badge}`}>
+                        {cfg.label}
+                      </span>
+                    </div>
+                    <p class="text-xs text-white/40 mb-3">📍 {ev.lugar}</p>
+                    <p class="text-sm text-white/65 leading-relaxed mb-3">{ev.descripcion}</p>
+                    <div class="flex flex-wrap gap-2">
+                      {ev.plazas !== null && (
+                        <span class="text-xs bg-white/[0.05] text-white/50 px-2.5 py-1 rounded-full">
+                          👤 {ev.plazas} plazas
+                        </span>
+                      )}
+                      {ev.inscripcion && (
+                        <span class="text-xs bg-white/[0.05] text-white/50 px-2.5 py-1 rounded-full">
+                          ✉️ Requiere inscripción
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      <!-- Pasados -->
+      {pasados.length > 0 && (
+        <section class="opacity-50">
+          <h2 class="text-xs font-bold uppercase tracking-widest text-white/30 mb-4 pb-2 border-b border-white/[0.06]">
+            Eventos pasados
+          </h2>
+          <div class="space-y-3">
+            {pasados.map((ev) => {
+              const cfg = config[ev.tipo];
+              return (
+                <article class={`grid grid-cols-[180px_1fr] bg-[#1a1d27] rounded-2xl border border-white/[0.07] border-l-4 ${cfg.border} overflow-hidden`}>
+                  <div class="flex flex-col items-center justify-center gap-1.5 px-4 py-5 bg-white/[0.02] border-r border-white/[0.05] text-center">
+                    <span class="text-3xl">{cfg.emoji}</span>
+                    <time datetime={ev.fecha} class="text-xs text-white/50 leading-snug capitalize">
+                      {formatFecha(ev.fecha)}
+                    </time>
+                    <span class="text-xs font-bold" style={`color: ${cfg.color}`}>⏰ {ev.hora} h</span>
+                  </div>
+                  <div class="p-5">
+                    <div class="flex items-start justify-between gap-3 mb-1">
+                      <h3 class="font-bold text-base leading-snug">{ev.titulo}</h3>
+                      <span class={`shrink-0 text-xs px-2.5 py-0.5 rounded-full border font-semibold ${cfg.badge}`}>
+                        {cfg.label}
+                      </span>
+                    </div>
+                    <p class="text-xs text-white/40 mb-3">📍 {ev.lugar}</p>
+                    <p class="text-sm text-white/65 leading-relaxed">{ev.descripcion}</p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+  @media (max-width: 600px) {
+    article { grid-template-columns: 1fr !important; }
+  }
+</style>

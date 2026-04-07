@@ -1,0 +1,110 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const archivos = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/pescadores/*.{jpg,jpeg,png,webp,svg,JPG,JPEG,PNG,WEBP}',
+  { eager: true }
+);
+
+function capitalizar(texto: string): string {
+  return texto
+    .split('-')
+    .map(p => p.charAt(0).toUpperCase() + p.slice(1))
+    .join(' ');
+}
+
+function parsearArchivo(ruta: string, modulo: { default: ImageMetadata }) {
+  const nombreArchivo = ruta.split('/').pop()!.replace(/\.[^.]+$/, '');
+  const partes = nombreArchivo.split('_');
+  return {
+    nombre:    capitalizar(partes[0] ?? 'Desconocido'),
+    edad:      parseInt(partes[1] ?? '0', 10),
+    modalidad: capitalizar(partes[2] ?? 'sin-especificar'),
+    src:       modulo.default,
+  };
+}
+
+const pescadores = Object.entries(archivos)
+  .map(([ruta, modulo]) => parsearArchivo(ruta, modulo))
+  .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+---
+
+<Layout title="Pescadores — CDF-LAMORAÑA">
+  <main class="min-h-screen bg-[#0f1117] pb-16">
+
+    <!-- Cabecera -->
+    <div class="text-center px-6 pt-12 pb-8 border-b border-white/[0.07]">
+      <a href="/" class="inline-block text-blue-400 hover:underline text-sm mb-4">← Inicio</a>
+      <h1 class="text-4xl font-extrabold mb-2">🎣 Nuestros Pescadores</h1>
+      <p class="text-white/50 mb-1">Socios de la Sociedad Deportiva de Pesca CDF-LAMORAÑA</p>
+      <p class="text-blue-400 text-sm font-semibold">
+        {pescadores.length} {pescadores.length === 1 ? 'socio' : 'socios'} registrados
+      </p>
+    </div>
+
+    <!-- Grid de pescadores -->
+    {pescadores.length === 0 ? (
+      <div class="text-center py-24 px-6 text-white/40">
+        <p class="text-lg mb-2">📂 No hay fotos todavía.</p>
+        <p class="text-sm">
+          Añade imágenes en <code class="bg-white/10 px-2 py-0.5 rounded text-cyan-300">src/assets/pescadores/</code>
+          con el formato <code class="bg-white/10 px-2 py-0.5 rounded text-cyan-300">nombre-apellido_edad_modalidad.jpg</code>
+        </p>
+      </div>
+    ) : (
+      <div class="grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-6 max-w-5xl mx-auto px-6 pt-10">
+        {pescadores.map((p) => (
+          <article class="bg-[#1a1d27] rounded-2xl overflow-hidden border border-white/[0.07] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/40">
+
+            <!-- Foto -->
+            <div class="h-60 overflow-hidden bg-[#0f1117]">
+              <img
+                src={typeof p.src === 'string' ? p.src : (p.src as any).src}
+                alt={`Foto de ${p.nombre}`}
+                class="w-full h-full object-cover object-top"
+                loading="lazy"
+              />
+            </div>
+
+            <!-- Info -->
+            <div class="p-5">
+              <h2 class="text-lg font-bold mb-4 leading-tight">{p.nombre}</h2>
+              <ul class="space-y-2">
+                <li class="flex justify-between text-sm border-b border-white/[0.06] pb-2">
+                  <span class="text-white/40">Edad</span>
+                  <span class="text-white/90 font-medium">
+                    {isNaN(p.edad) ? '—' : `${p.edad} años`}
+                  </span>
+                </li>
+                <li class="flex justify-between text-sm">
+                  <span class="text-white/40">Modalidad</span>
+                  <span class="text-white/90 font-medium">{p.modalidad}</span>
+                </li>
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+
+    <!-- Acordeón de ayuda -->
+    <div class="max-w-2xl mx-auto px-6 mt-12">
+      <details class="bg-white/[0.03] border border-white/[0.07] rounded-xl overflow-hidden group">
+        <summary class="px-5 py-3 text-sm text-white/40 cursor-pointer hover:text-white/60 transition-colors list-none">
+          ¿Cómo añadir un pescador? ▾
+        </summary>
+        <div class="px-5 pb-5 pt-3 border-t border-white/[0.06] text-sm text-white/55 space-y-3 leading-relaxed">
+          <p>Copia la foto en <code class="bg-black/30 text-cyan-300 px-1.5 py-0.5 rounded">src/assets/pescadores/</code> con este formato:</p>
+          <pre class="bg-black/30 text-cyan-300 rounded-lg px-4 py-3 text-xs overflow-x-auto">nombre-apellido_edad_modalidad.jpg</pre>
+          <p class="font-medium text-white/70">Ejemplos:</p>
+          <ul class="space-y-1 pl-4 list-disc marker:text-white/20">
+            <li><code class="text-cyan-300">carlos-martinez_42_mosca.jpg</code></li>
+            <li><code class="text-cyan-300">ana-rodriguez_29_carpfishing.png</code></li>
+            <li><code class="text-cyan-300">jose-luis-perez_55_mosca-y-señuelo.webp</code></li>
+          </ul>
+        </div>
+      </details>
+    </div>
+
+  </main>
+</Layout>
