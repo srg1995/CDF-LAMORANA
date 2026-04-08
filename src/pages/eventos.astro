@@ -87,18 +87,21 @@ const eventos: Evento[] = [
 interface TipoConfig {
   emoji: string;
   label: string;
-  color: string;    // borde izquierdo y acentos
-  badge: string;    // clases Tailwind del badge
-  border: string;   // clase de borde izquierdo
+  activeClass: string;
+  borderClass: string;
+  badgeClass: string;
+  dotClass: string;
 }
 
 const config: Record<TipoEvento, TipoConfig> = {
-  pesca:     { emoji: '🎣', label: 'Día de pesca',  color: '#3b82f6', badge: 'bg-blue-500/15 text-blue-400 border-blue-500/25',   border: 'border-l-blue-500'   },
-  limpieza:  { emoji: '🌿', label: 'Limpieza',       color: '#22c55e', badge: 'bg-green-500/15 text-green-400 border-green-500/25', border: 'border-l-green-500'  },
-  montaje:   { emoji: '🔧', label: 'Montaje',        color: '#f59e0b', badge: 'bg-amber-500/15 text-amber-400 border-amber-500/25', border: 'border-l-amber-500'  },
-  reunion:   { emoji: '📋', label: 'Reunión',        color: '#a78bfa', badge: 'bg-violet-500/15 text-violet-400 border-violet-500/25', border: 'border-l-violet-500' },
-  formacion: { emoji: '📚', label: 'Formación',      color: '#f43f5e', badge: 'bg-rose-500/15 text-rose-400 border-rose-500/25',   border: 'border-l-rose-500'   },
+  pesca:     { emoji: '🎣', label: 'Día de pesca',  activeClass: 'active-pesca',     borderClass: 'border-l-blue-500',   badgeClass: 'bg-blue-50 text-blue-700 border-blue-200',   dotClass: 'bg-blue-500'   },
+  limpieza:  { emoji: '🌿', label: 'Limpieza',       activeClass: 'active-limpieza',  borderClass: 'border-l-green-500',  badgeClass: 'bg-green-50 text-green-700 border-green-200', dotClass: 'bg-green-500'  },
+  montaje:   { emoji: '🔧', label: 'Montaje',        activeClass: 'active-montaje',   borderClass: 'border-l-amber-500',  badgeClass: 'bg-amber-50 text-amber-700 border-amber-200', dotClass: 'bg-amber-500'  },
+  reunion:   { emoji: '📋', label: 'Reunión',        activeClass: 'active-reunion',   borderClass: 'border-l-violet-500', badgeClass: 'bg-violet-50 text-violet-700 border-violet-200', dotClass: 'bg-violet-500' },
+  formacion: { emoji: '📚', label: 'Formación',      activeClass: 'active-formacion', borderClass: 'border-l-rose-500',   badgeClass: 'bg-rose-50 text-rose-700 border-rose-200',   dotClass: 'bg-rose-500'   },
 };
+
+const tipos = Object.entries(config) as [TipoEvento, TipoConfig][];
 
 function formatFecha(iso: string): string {
   const [y, m, d] = iso.split('-').map(Number);
@@ -113,66 +116,93 @@ const pasados  = eventos.filter(e => new Date(e.fecha) <  hoy);
 ---
 
 <Layout title="Eventos — CDF-LAMORAÑA">
-  <main class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50 pb-16">
+  <main class="min-h-screen bg-slate-50 pb-16">
 
     <!-- Cabecera -->
-    <div class="text-center px-6 pt-12 pb-8 border-b border-white/[0.07]">
-      <a href="/" class="inline-block text-blue-400 hover:underline text-sm mb-4">← Inicio</a>
-      <h1 class="text-4xl font-extrabold mb-2">📅 Eventos</h1>
-      <p class="text-white/50 mb-5">Actividades y calendario de la sociedad</p>
-
-      <!-- Leyenda -->
-      <div class="flex flex-wrap justify-center gap-2">
-        {(Object.values(config) as TipoConfig[]).map((c) => (
-          <span class={`text-xs px-3 py-1 rounded-full border font-medium ${c.badge}`}>
-            {c.emoji} {c.label}
-          </span>
-        ))}
+    <div class="bg-white border-b border-slate-200 shadow-sm">
+      <div class="max-w-3xl mx-auto px-6 pt-10 pb-8">
+        <a href="/" class="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 transition-colors mb-6">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Inicio
+        </a>
+        <h1 class="text-3xl font-extrabold text-slate-900 mb-1">Eventos</h1>
+        <p class="text-slate-500 text-sm">Actividades y calendario de la sociedad</p>
       </div>
     </div>
 
     <div class="max-w-3xl mx-auto px-6 pt-8 space-y-10">
 
+      <!-- Filtros -->
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-3">Filtrar por tipo</p>
+        <div id="filtros" class="flex flex-wrap gap-2">
+          <button
+            data-filter="all"
+            class="filter-btn filter-all inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-full border font-medium transition-all duration-150 cursor-pointer bg-slate-900 text-white border-slate-900 shadow-sm"
+          >
+            Todos
+          </button>
+          {tipos.map(([tipo, cfg]) => (
+            <button
+              data-filter={tipo}
+              class={`filter-btn inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-full border font-medium transition-all duration-150 cursor-pointer bg-white text-slate-600 border-slate-200 hover:border-slate-300`}
+            >
+              <span>{cfg.emoji}</span>
+              {cfg.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <!-- Próximos -->
       {proximos.length > 0 && (
-        <section>
-          <h2 class="text-xs font-bold uppercase tracking-widest text-white/30 mb-4 pb-2 border-b border-white/[0.06]">
+        <section id="section-proximos">
+          <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4 pb-2 border-b border-slate-200">
             Próximos eventos
           </h2>
           <div class="space-y-3">
             {proximos.map((ev) => {
               const cfg = config[ev.tipo];
               return (
-                <article class={`grid grid-cols-[180px_1fr] bg-[#1a1d27] rounded-2xl border border-white/[0.07] border-l-4 ${cfg.border} overflow-hidden hover:shadow-xl hover:shadow-black/30 transition-shadow`}>
-                  <!-- Fecha -->
-                  <div class="flex flex-col items-center justify-center gap-1.5 px-4 py-5 bg-white/[0.02] border-r border-white/[0.05] text-center">
-                    <span class="text-3xl">{cfg.emoji}</span>
-                    <time datetime={ev.fecha} class="text-xs text-white/50 leading-snug capitalize">
-                      {formatFecha(ev.fecha)}
-                    </time>
-                    <span class="text-xs font-bold" style={`color: ${cfg.color}`}>⏰ {ev.hora} h</span>
-                  </div>
-                  <!-- Info -->
-                  <div class="p-5">
-                    <div class="flex items-start justify-between gap-3 mb-1">
-                      <h3 class="font-bold text-base leading-snug">{ev.titulo}</h3>
-                      <span class={`shrink-0 text-xs px-2.5 py-0.5 rounded-full border font-semibold ${cfg.badge}`}>
-                        {cfg.label}
-                      </span>
+                <article
+                  data-tipo={ev.tipo}
+                  class={`event-card bg-white rounded-2xl border border-slate-200 border-l-4 ${cfg.borderClass} shadow-sm hover:shadow-md transition-shadow overflow-hidden`}
+                >
+                  <div class="grid grid-cols-[160px_1fr] sm:grid-cols-[180px_1fr]">
+                    <!-- Fecha -->
+                    <div class="flex flex-col items-center justify-center gap-1.5 px-4 py-5 bg-slate-50 border-r border-slate-100 text-center">
+                      <span class="text-3xl">{cfg.emoji}</span>
+                      <time datetime={ev.fecha} class="text-xs text-slate-500 leading-snug capitalize">
+                        {formatFecha(ev.fecha)}
+                      </time>
+                      <span class="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-full">⏰ {ev.hora} h</span>
                     </div>
-                    <p class="text-xs text-white/40 mb-3">📍 {ev.lugar}</p>
-                    <p class="text-sm text-white/65 leading-relaxed mb-3">{ev.descripcion}</p>
-                    <div class="flex flex-wrap gap-2">
-                      {ev.plazas !== null && (
-                        <span class="text-xs bg-white/[0.05] text-white/50 px-2.5 py-1 rounded-full">
-                          👤 {ev.plazas} plazas
+                    <!-- Info -->
+                    <div class="p-5">
+                      <div class="flex items-start justify-between gap-3 mb-1.5">
+                        <h3 class="font-bold text-base text-slate-900 leading-snug">{ev.titulo}</h3>
+                        <span class={`shrink-0 text-xs px-2.5 py-0.5 rounded-full border font-semibold ${cfg.badgeClass}`}>
+                          {cfg.label}
                         </span>
-                      )}
-                      {ev.inscripcion && (
-                        <span class="text-xs bg-white/[0.05] text-white/50 px-2.5 py-1 rounded-full">
-                          ✉️ Requiere inscripción
-                        </span>
-                      )}
+                      </div>
+                      <p class="text-xs text-slate-400 mb-3 flex items-center gap-1">
+                        <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        {ev.lugar}
+                      </p>
+                      <p class="text-sm text-slate-600 leading-relaxed mb-3">{ev.descripcion}</p>
+                      <div class="flex flex-wrap gap-2">
+                        {ev.plazas !== null && (
+                          <span class="text-xs bg-slate-100 text-slate-500 px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            {ev.plazas} plazas
+                          </span>
+                        )}
+                        {ev.inscripcion && (
+                          <span class="text-xs bg-blue-50 text-blue-600 border border-blue-100 px-2.5 py-1 rounded-full">
+                            ✉️ Requiere inscripción
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </article>
@@ -184,31 +214,39 @@ const pasados  = eventos.filter(e => new Date(e.fecha) <  hoy);
 
       <!-- Pasados -->
       {pasados.length > 0 && (
-        <section class="opacity-50">
-          <h2 class="text-xs font-bold uppercase tracking-widest text-white/30 mb-4 pb-2 border-b border-white/[0.06]">
+        <section id="section-pasados">
+          <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4 pb-2 border-b border-slate-200">
             Eventos pasados
           </h2>
           <div class="space-y-3">
             {pasados.map((ev) => {
               const cfg = config[ev.tipo];
               return (
-                <article class={`grid grid-cols-[180px_1fr] bg-[#1a1d27] rounded-2xl border border-white/[0.07] border-l-4 ${cfg.border} overflow-hidden`}>
-                  <div class="flex flex-col items-center justify-center gap-1.5 px-4 py-5 bg-white/[0.02] border-r border-white/[0.05] text-center">
-                    <span class="text-3xl">{cfg.emoji}</span>
-                    <time datetime={ev.fecha} class="text-xs text-white/50 leading-snug capitalize">
-                      {formatFecha(ev.fecha)}
-                    </time>
-                    <span class="text-xs font-bold" style={`color: ${cfg.color}`}>⏰ {ev.hora} h</span>
-                  </div>
-                  <div class="p-5">
-                    <div class="flex items-start justify-between gap-3 mb-1">
-                      <h3 class="font-bold text-base leading-snug">{ev.titulo}</h3>
-                      <span class={`shrink-0 text-xs px-2.5 py-0.5 rounded-full border font-semibold ${cfg.badge}`}>
-                        {cfg.label}
-                      </span>
+                <article
+                  data-tipo={ev.tipo}
+                  class={`event-card bg-white rounded-2xl border border-slate-200 border-l-4 ${cfg.borderClass} overflow-hidden`}
+                >
+                  <div class="grid grid-cols-[160px_1fr] sm:grid-cols-[180px_1fr]">
+                    <div class="flex flex-col items-center justify-center gap-1.5 px-4 py-5 bg-slate-50 border-r border-slate-100 text-center">
+                      <span class="text-3xl grayscale">{cfg.emoji}</span>
+                      <time datetime={ev.fecha} class="text-xs text-slate-500 leading-snug capitalize">
+                        {formatFecha(ev.fecha)}
+                      </time>
+                      <span class="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">⏰ {ev.hora} h</span>
                     </div>
-                    <p class="text-xs text-white/40 mb-3">📍 {ev.lugar}</p>
-                    <p class="text-sm text-white/65 leading-relaxed">{ev.descripcion}</p>
+                    <div class="p-5">
+                      <div class="flex items-start justify-between gap-3 mb-1.5">
+                        <h3 class="font-bold text-base text-slate-600 leading-snug">{ev.titulo}</h3>
+                        <span class={`shrink-0 text-xs px-2.5 py-0.5 rounded-full border font-semibold ${cfg.badgeClass}`}>
+                          {cfg.label}
+                        </span>
+                      </div>
+                      <p class="text-xs text-slate-400 mb-2 flex items-center gap-1">
+                        <svg class="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        {ev.lugar}
+                      </p>
+                      <p class="text-sm text-slate-500 leading-relaxed">{ev.descripcion}</p>
+                    </div>
                   </div>
                 </article>
               );
@@ -217,12 +255,95 @@ const pasados  = eventos.filter(e => new Date(e.fecha) <  hoy);
         </section>
       )}
 
+      <!-- Sin resultados -->
+      <p id="sin-resultados" class="hidden text-center text-slate-400 py-12 text-sm">
+        No hay eventos para el tipo seleccionado.
+      </p>
+
     </div>
   </main>
 </Layout>
 
 <style>
-  @media (max-width: 600px) {
-    article { grid-template-columns: 1fr !important; }
+  @media (max-width: 480px) {
+    .event-card > div {
+      grid-template-columns: 1fr !important;
+    }
+    .event-card > div > div:first-child {
+      flex-direction: row;
+      border-right: none;
+      border-bottom: 1px solid #f1f5f9;
+      justify-content: flex-start;
+      padding: 1rem 1.25rem;
+      gap: 0.75rem;
+    }
   }
 </style>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.event-card');
+  const sinResultados = document.getElementById('sin-resultados')!;
+  const sectionProximos = document.getElementById('section-proximos');
+  const sectionPasados = document.getElementById('section-pasados');
+
+  // Colores activos por tipo
+  const activeStyles: Record<string, string> = {
+    all:       'bg-slate-900 text-white border-slate-900 shadow-sm',
+    pesca:     'bg-blue-600 text-white border-blue-600 shadow-sm',
+    limpieza:  'bg-green-600 text-white border-green-600 shadow-sm',
+    montaje:   'bg-amber-500 text-white border-amber-500 shadow-sm',
+    reunion:   'bg-violet-600 text-white border-violet-600 shadow-sm',
+    formacion: 'bg-rose-600 text-white border-rose-600 shadow-sm',
+  };
+  const inactiveStyle = 'bg-white text-slate-600 border-slate-200 hover:border-slate-300';
+
+  let active = new Set<string>();
+
+  function applyFilter() {
+    const showAll = active.size === 0;
+
+    let visibleProximos = 0;
+    let visiblePasados = 0;
+
+    cards.forEach(card => {
+      const tipo = card.dataset.tipo!;
+      const visible = showAll || active.has(tipo);
+      card.style.display = visible ? '' : 'none';
+      const section = card.closest('section');
+      if (visible && section?.id === 'section-proximos') visibleProximos++;
+      if (visible && section?.id === 'section-pasados') visiblePasados++;
+    });
+
+    if (sectionProximos) sectionProximos.style.display = visibleProximos === 0 ? 'none' : '';
+    if (sectionPasados)  sectionPasados.style.display  = visiblePasados  === 0 ? 'none' : '';
+    sinResultados.classList.toggle('hidden', visibleProximos + visiblePasados > 0);
+  }
+
+  function updateButtons() {
+    btns.forEach(btn => {
+      const f = btn.dataset.filter!;
+      const isActive = f === 'all' ? active.size === 0 : active.has(f);
+      // Reset all classes
+      btn.className = 'filter-btn inline-flex items-center gap-1.5 text-sm px-4 py-2 rounded-full border font-medium transition-all duration-150 cursor-pointer';
+      btn.className += ' ' + (isActive ? activeStyles[f] : inactiveStyle);
+    });
+  }
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter!;
+      if (f === 'all') {
+        active.clear();
+      } else {
+        if (active.has(f)) {
+          active.delete(f);
+        } else {
+          active.add(f);
+        }
+      }
+      updateButtons();
+      applyFilter();
+    });
+  });
+</script>
