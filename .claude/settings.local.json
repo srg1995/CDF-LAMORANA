@@ -7,7 +7,15 @@
       "Bash(node -e \"console.log\\(require\\(''/Users/sergio/Desktop/PROYECTOS/ASTRO/CDF-LAMORAÑA/node_modules/vite/package.json''\\).version\\)\")",
       "Bash(/Users/sergio/.bun/bin/bun -e \"import ''vite/internal''\")",
       "Bash(/Users/sergio/.bun/bin/bun -e \"const p = require\\(''/Users/sergio/Desktop/PROYECTOS/ASTRO/CDF-LAMORAÑA/node_modules/vite/package.json''\\); console.log\\(JSON.stringify\\(Object.keys\\(p.exports || {}\\).filter\\(k => k.includes\\(''internal''\\)\\)\\)\\)\")",
-      "Bash(/Users/sergio/.bun/bin/bun test:*)"
+      "Bash(/Users/sergio/.bun/bin/bun test:*)",
+      "Bash(curl -fsSL \"https://github.com/pocketbase/pocketbase/releases/latest/download/pocketbase_darwin_arm64.zip\" -o /tmp/pocketbase.zip)",
+      "Bash(echo \"Exit: $?\")",
+      "Bash(curl -s \"https://api.github.com/repos/pocketbase/pocketbase/releases/latest\")",
+      "Bash(curl -sI \"https://github.com/pocketbase/pocketbase/releases/latest\")",
+      "Bash(curl -fsSL \"https://github.com/pocketbase/pocketbase/releases/download/v0.36.8/pocketbase_0.36.8_darwin_arm64.zip\" -o /tmp/pocketbase.zip)",
+      "Bash(mkdir -p /Users/sergio/Desktop/PROYECTOS/ASTRO/CDF-LAMORAÑA/pocketbase)",
+      "Bash(unzip -o /tmp/pocketbase.zip -d /Users/sergio/Desktop/PROYECTOS/ASTRO/CDF-LAMORAÑA/pocketbase)",
+      "Bash(chmod +x /Users/sergio/Desktop/PROYECTOS/ASTRO/CDF-LAMORAÑA/pocketbase/pocketbase)"
     ]
   }
 }
