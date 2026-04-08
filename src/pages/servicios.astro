@@ -1,19 +1,11 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 ---
 
-<Layout title="Servicios — CDF-LAMORAÑA">
-  <main>
-    <a href="/" class="back">← Volver</a>
-    <h1>Servicios</h1>
-    <p>Página de servicios. Edita este archivo en <code>src/pages/servicios.astro</code>.</p>
-  </main>
-</Layout>
-
-<style>
-  main { max-width: 800px; margin: 4rem auto; padding: 0 1.5rem; color: white; font-family: system-ui, sans-serif; }
-  h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-  .back { color: #a78bfa; text-decoration: none; font-size: 0.95rem; }
-  .back:hover { text-decoration: underline; }
-  code { background: rgba(255,255,255,0.1); padding: 0.2em 0.4em; border-radius: 4px; font-size: 0.85em; }
-</style>
+<PageLayout title="Servicios — CDF-LAMORAÑA" heading="Servicios" description="Servicios y actividades de la sociedad">
+  <div class="max-w-3xl mx-auto px-6 pt-8 pb-16">
+    <p class="text-slate-600">
+      Página de servicios. Edita este archivo en <code class="bg-slate-100 text-sky-700 px-1.5 py-0.5 rounded text-sm">src/pages/servicios.astro</code>.
+    </p>
+  </div>
+</PageLayout>

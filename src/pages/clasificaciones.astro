@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 
 type TipoModalidad = 'coup' | 'spinning' | 'carpfishing' | 'mosca';
 
@@ -90,17 +90,7 @@ const rowBg: Record<number, string> = {
 };
 ---
 
-<Layout title="Clasificaciones — CDF-LAMORAÑA">
-  <main class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50 pb-16">
-
-    <!-- Cabecera -->
-    <div class="text-center px-6 pt-12 pb-8 border-b border-white/[0.07]">
-      <a href="/" class="inline-block text-blue-400 hover:underline text-sm mb-4">← Inicio</a>
-      <h1 class="text-4xl font-extrabold mb-2">🏆 Clasificaciones</h1>
-      <p class="text-white/50">Resultados de las competiciones de la sociedad</p>
-    </div>
-
-    <!-- Acordeones -->
+<PageLayout title="Clasificaciones — CDF-LAMORAÑA" heading="🏆 Clasificaciones" description="Resultados de las competiciones de la sociedad">
     <div class="max-w-3xl mx-auto px-6 pt-8 space-y-3">
       {competiciones.map((comp) => (
         <details class="group bg-[#1a1d27] border border-white/[0.07] rounded-2xl overflow-hidden open:border-blue-500/30 transition-all">
@@ -150,6 +140,4 @@ const rowBg: Record<number, string> = {
         </details>
       ))}
     </div>
-
-  </main>
-</Layout>
+</PageLayout>

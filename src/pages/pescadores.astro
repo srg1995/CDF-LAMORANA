@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
 
 const archivos = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/pescadores/*.{jpg,jpeg,png,webp,svg,JPG,JPEG,PNG,WEBP}',
@@ -29,19 +29,7 @@ const pescadores = Object.entries(archivos)
   .sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
 ---
 
-<Layout title="Pescadores — CDF-LAMORAÑA">
-  <main class="min-h-screen bg-gradient-to-b from-sky-50 via-white to-blue-50 pb-16">
-
-    <!-- Cabecera -->
-    <div class="text-center px-6 pt-12 pb-8 border-b border-white/[0.07]">
-      <a href="/" class="inline-block text-blue-400 hover:underline text-sm mb-4">← Inicio</a>
-      <h1 class="text-4xl font-extrabold mb-2">🎣 Nuestros Pescadores</h1>
-      <p class="text-white/50 mb-1">Socios de la Sociedad Deportiva de Pesca CDF-LAMORAÑA</p>
-      <p class="text-blue-400 text-sm font-semibold">
-        {pescadores.length} {pescadores.length === 1 ? 'socio' : 'socios'} registrados
-      </p>
-    </div>
-
+<PageLayout title="Pescadores — CDF-LAMORAÑA" heading="🎣 Nuestros Pescadores" description="Socios de la Sociedad Deportiva de Pesca CDF-LAMORAÑA">
     <!-- Grid de pescadores -->
     {pescadores.length === 0 ? (
       <div class="text-center py-24 px-6 text-white/40">
@@ -105,6 +93,4 @@ const pescadores = Object.entries(archivos)
         </div>
       </details>
     </div>
-
-  </main>
-</Layout>
+</PageLayout>

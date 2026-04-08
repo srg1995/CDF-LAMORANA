@@ -1,0 +1,42 @@
+---
+import Layout from "./Layout.astro";
+
+interface Props {
+  title: string;
+  heading: string;
+  description?: string;
+}
+
+const { title, heading, description } = Astro.props;
+---
+
+<Layout title={title}>
+  <main class="min-h-screen pb-16">
+    <div class="bg-white border-b border-slate-200 shadow-sm">
+      <div class="max-w-5xl mx-auto px-6 pt-10 pb-8">
+        <a
+          href="/"
+          class="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 transition-colors mb-6"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            ></path>
+          </svg>
+          Inicio
+        </a>
+        <h1 class="text-3xl font-extrabold text-slate-900 mb-1">{heading}</h1>
+        {description && <p class="text-slate-500 text-sm">{description}</p>}
+      </div>
+    </div>
+    <slot />
+  </main>
+</Layout>
