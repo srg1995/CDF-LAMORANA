@@ -2,80 +2,122 @@
 const items = [
   {
     title: 'Pescadores',
-    description: 'Conoce a los socios de la sociedad',
+    description: 'Conoce a los socios y sus logros deportivos en la sociedad',
     href: '/pescadores',
-    emoji: '🎣',
+    tag: 'Comunidad',
+    tagColor: 'bg-sky-400/15 text-sky-300 ring-sky-400/20',
     bg: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900&q=80',
     size: 'large',
-  },
-  {
-    title: 'Clasificaciones',
-    description: 'Resultados de competiciones',
-    href: '/clasificaciones',
-    emoji: '🏆',
-    bg: 'https://images.unsplash.com/photo-1559526324-593bc073d938?w=600&q=80',
-    size: 'small',
+    gradientFrom: 'from-sky-950/95',
   },
   {
     title: 'Eventos',
-    description: 'Días de pesca, limpieza y más',
+    description: 'Días de pesca, limpiezas y actividades del club',
     href: '/eventos',
-    emoji: '📅',
-    bg: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600&q=80',
+    tag: 'Actividades',
+    tagColor: 'bg-emerald-400/15 text-emerald-300 ring-emerald-400/20',
+    bg: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=700&q=80',
     size: 'small',
+    gradientFrom: 'from-emerald-950/95',
+  },
+  {
+    title: 'Clasificaciones',
+    description: 'Rankings y resultados de las competiciones',
+    href: '/clasificaciones',
+    tag: 'Resultados',
+    tagColor: 'bg-amber-400/15 text-amber-300 ring-amber-400/20',
+    bg: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=700&q=80',
+    size: 'small',
+    gradientFrom: 'from-amber-950/95',
+  },
+  {
+    title: 'Servicios',
+    description: 'Todo lo que ofrecemos a nuestros socios y aficionados',
+    href: '/servicios',
+    tag: 'Club',
+    tagColor: 'bg-violet-400/15 text-violet-300 ring-violet-400/20',
+    bg: 'https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=700&q=80',
+    size: 'small',
+    gradientFrom: 'from-violet-950/95',
   },
   {
     title: 'Contacto',
-    description: 'Ponte en contacto con nosotros',
+    description: 'Ponte en contacto con la sociedad deportiva',
     href: '/contacto',
-    emoji: '✉️',
+    tag: 'Contacto',
+    tagColor: 'bg-rose-400/15 text-rose-300 ring-rose-400/20',
     bg: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&q=80',
-    size: 'wide',
+    size: 'small',
+    gradientFrom: 'from-rose-950/95',
   },
   {
-    title: 'Privacidad y LOPD',
-    description: 'Protección de datos',
+    title: 'Sobre Nosotros',
+    description: 'Historia, valores y misión de la CDF-LAMORAÑA desde sus inicios',
+    href: '/sobre-nosotros',
+    tag: 'Historia',
+    tagColor: 'bg-teal-400/15 text-teal-300 ring-teal-400/20',
+    bg: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80',
+    size: 'wide',
+    gradientFrom: 'from-teal-950/95',
+  },
+  {
+    title: 'Privacidad',
+    description: 'Política de protección de datos y LOPD',
     href: '/privacidad',
-    emoji: '🔒',
+    tag: 'Legal',
+    tagColor: 'bg-slate-400/15 text-slate-300 ring-slate-400/20',
     bg: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80',
     size: 'small',
+    gradientFrom: 'from-slate-950/95',
   },
   {
     title: 'Cookies',
-    description: 'Política de cookies',
+    description: 'Política de cookies del sitio web',
     href: '/cookies',
-    emoji: '🍪',
+    tag: 'Legal',
+    tagColor: 'bg-slate-400/15 text-slate-300 ring-slate-400/20',
     bg: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
     size: 'small',
+    gradientFrom: 'from-slate-950/95',
   },
 ];
 
 const sizeClasses: Record<string, string> = {
   large: 'col-span-2 row-span-2 min-h-[420px]',
-  wide:  'col-span-2 min-h-[190px]',
-  small: 'col-span-1 min-h-[190px]',
+  wide:  'col-span-2 min-h-[200px]',
+  small: 'col-span-1 min-h-[200px]',
 };
 ---
 
-<section class="grid grid-cols-4 gap-4 p-6 max-w-6xl mx-auto">
+<section class="grid grid-cols-4 gap-3 p-6 max-w-6xl mx-auto">
   {items.map((item) => (
     <a
       href={item.href}
-      class={`group relative rounded-2xl overflow-hidden bg-cover bg-center flex items-end border border-white/5 transition-all duration-300 hover:scale-[1.025] hover:shadow-2xl hover:shadow-black/50 ${sizeClasses[item.size]}`}
+      class={`group relative rounded-2xl overflow-hidden bg-cover bg-center flex flex-col justify-between border border-white/[0.06] transition-all duration-300 ease-out hover:scale-[1.018] hover:shadow-2xl hover:shadow-black/40 hover:border-white/10 ${sizeClasses[item.size]}`}
       style={`background-image: url('${item.bg}')`}
     >
-      {/* Overlay */}
-      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-black/90 transition-all duration-300" />
+      {/* Gradient overlay */}
+      <div class={`absolute inset-0 bg-gradient-to-t ${item.gradientFrom} via-black/30 to-transparent transition-opacity duration-300 group-hover:opacity-90`} />
 
-      {/* Content */}
-      <div class="relative z-10 p-5">
-        <span class={`block mb-1 leading-none ${item.size === 'large' ? 'text-4xl' : 'text-2xl'}`}>
-          {item.emoji}
+      {/* Top: tag */}
+      <div class="relative z-10 p-4 flex justify-between items-start">
+        <span class={`text-xs font-semibold px-2.5 py-1 rounded-full ring-1 backdrop-blur-sm ${item.tagColor}`}>
+          {item.tag}
         </span>
-        <h2 class={`font-bold leading-tight text-white mb-1 ${item.size === 'large' ? 'text-3xl' : 'text-lg'}`}>
+        {/* Arrow icon — appears on hover */}
+        <span class="opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 group-hover:translate-x-0 -translate-y-1 group-hover:translate-y-0">
+          <svg class="w-5 h-5 text-white/70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H7M17 7v10" />
+          </svg>
+        </span>
+      </div>
+
+      {/* Bottom: content */}
+      <div class="relative z-10 p-5">
+        <h2 class={`font-bold leading-tight text-white mb-1.5 ${item.size === 'large' ? 'text-3xl' : 'text-[1.05rem]'}`}>
           {item.title}
         </h2>
-        <p class={`text-white/70 ${item.size === 'large' ? 'text-base' : 'text-sm'}`}>
+        <p class={`text-white/60 leading-snug ${item.size === 'large' ? 'text-sm max-w-xs' : 'text-xs'}`}>
           {item.description}
         </p>
       </div>
@@ -84,20 +126,25 @@ const sizeClasses: Record<string, string> = {
 </section>
 
 <style>
-  /* Responsive: tablet */
+  /* Tablet */
   @media (max-width: 860px) {
     section {
       grid-template-columns: repeat(2, 1fr) !important;
     }
     .col-span-2 { grid-column: span 2; }
-    .row-span-2 { grid-row: span 1; min-height: 300px !important; }
+    .row-span-2 { grid-row: span 1; min-height: 280px !important; }
   }
 
-  /* Responsive: móvil */
+  /* Mobile */
   @media (max-width: 500px) {
     section {
       grid-template-columns: 1fr !important;
+      gap: 0.5rem !important;
     }
-    a { grid-column: span 1 !important; grid-row: span 1 !important; min-height: 200px !important; }
+    a {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+      min-height: 180px !important;
+    }
   }
 </style>
