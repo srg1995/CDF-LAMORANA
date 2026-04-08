@@ -1,0 +1,57 @@
+---
+import '../../styles/global.css';
+import GestionJornada from '../../components/GestionJornada';
+---
+
+<!doctype html>
+<html lang="es" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Jornadas — CDF-LAMORAÑA</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="min-h-full bg-slate-900 font-sans antialiased text-white">
+
+    <div id="content" class="hidden max-w-6xl mx-auto px-4 py-10 space-y-6">
+
+      <!-- Cabecera -->
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <a href="/admin" class="text-xs text-slate-500 hover:text-slate-300 transition">
+            ← Gestión
+          </a>
+          <h1 class="text-2xl font-extrabold text-white mt-1">Registro de jornada</h1>
+          <p class="text-slate-400 text-sm mt-0.5">
+            Selecciona los pescadores que salen hoy y exporta la lista.
+          </p>
+        </div>
+        <button
+          id="logout-btn"
+          class="text-xs text-slate-500 hover:text-slate-300 underline transition"
+        >
+          Cerrar sesión
+        </button>
+      </div>
+
+      <!-- Isla React -->
+      <GestionJornada client:load />
+
+    </div>
+
+    <script>
+      if (sessionStorage.getItem('adminAuth') !== 'true') {
+        window.location.replace('/admin/login');
+      } else {
+        (document.getElementById('content') as HTMLDivElement).classList.remove('hidden');
+      }
+
+      document.getElementById('logout-btn')!.addEventListener('click', () => {
+        sessionStorage.removeItem('adminAuth');
+        window.location.href = '/admin/login';
+      });
+    </script>
+
+  </body>
+</html>
