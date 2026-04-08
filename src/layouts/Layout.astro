@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Footer from "../components/Footer.astro";
+import CookieBanner from "../components/CookieBanner.astro";
 
 interface Props {
   title: string;
@@ -25,5 +26,6 @@ const { title } = Astro.props;
   <body class="min-h-screen font-sans antialiased flex flex-col">
     <slot />
     <Footer />
+    <CookieBanner />
   </body>
 </html>

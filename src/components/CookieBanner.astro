@@ -1,0 +1,103 @@
+---
+// CookieBanner.astro
+// Se muestra en el primer acceso si no hay decisión guardada.
+// Guarda la preferencia en localStorage bajo la clave "cookie_consent":
+//   "accepted" | "rejected"
+---
+
+<div
+  id="cookie-banner"
+  role="dialog"
+  aria-modal="false"
+  aria-label="Aviso de cookies"
+  aria-live="polite"
+  hidden
+  class="fixed bottom-0 inset-x-0 z-50 p-4 sm:p-6"
+>
+  <div class="max-w-3xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-xl p-5 sm:p-6 flex flex-col sm:flex-row gap-4 sm:items-center">
+    <!-- Icono + texto -->
+    <div class="flex gap-3 items-start sm:items-center flex-1 min-w-0">
+      <span class="text-2xl shrink-0" aria-hidden="true">🍪</span>
+      <div class="min-w-0">
+        <p class="text-sm font-semibold text-slate-800 mb-0.5">Usamos cookies</p>
+        <p class="text-xs text-slate-500 leading-relaxed">
+          Esta web usa únicamente cookies técnicas necesarias para su funcionamiento.
+          <a
+            href="/cookies"
+            class="text-blue-600 hover:text-blue-800 underline underline-offset-2 whitespace-nowrap"
+          >Ver política de cookies</a>.
+        </p>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex gap-2 shrink-0 flex-wrap sm:flex-nowrap">
+      <button
+        id="cookie-reject"
+        type="button"
+        class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+      >
+        Solo necesarias
+      </button>
+      <button
+        id="cookie-accept"
+        type="button"
+        class="flex-1 sm:flex-none px-4 py-2 rounded-lg text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+      >
+        Aceptar
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const COOKIE_KEY = "cookie_consent";
+
+  function setCookieConsent(value: "accepted" | "rejected") {
+    localStorage.setItem(COOKIE_KEY, value);
+    // Establece también la cookie real para que el servidor pueda leerla si fuera necesario
+    const maxAge = value === "accepted" ? 60 * 60 * 24 * 365 : 60 * 60 * 24 * 30;
+    document.cookie = `cookie_consent=${value}; max-age=${maxAge}; path=/; SameSite=Lax`;
+  }
+
+  function hideBanner() {
+    const banner = document.getElementById("cookie-banner");
+    if (banner) {
+      banner.setAttribute("hidden", "");
+    }
+  }
+
+  function showBanner() {
+    const banner = document.getElementById("cookie-banner");
+    if (banner) {
+      banner.removeAttribute("hidden");
+    }
+  }
+
+  function init() {
+    const stored = localStorage.getItem(COOKIE_KEY);
+    if (!stored) {
+      showBanner();
+    }
+
+    document.getElementById("cookie-accept")?.addEventListener("click", () => {
+      setCookieConsent("accepted");
+      hideBanner();
+    });
+
+    document.getElementById("cookie-reject")?.addEventListener("click", () => {
+      setCookieConsent("rejected");
+      hideBanner();
+    });
+  }
+
+  // Exponer función global para que la página de cookies pueda abrir el banner
+  (window as any).openCookieBanner = () => {
+    localStorage.removeItem(COOKIE_KEY);
+    document.cookie = "cookie_consent=; max-age=0; path=/";
+    showBanner();
+    document.getElementById("cookie-banner")?.focus();
+  };
+
+  document.addEventListener("DOMContentLoaded", init);
+</script>
