@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun add:*)",
+      "Bash(/Users/sergio/.bun/bin/bun add:*)",
+      "Bash(/Users/sergio/.bun/bin/bun run:*)",
+      "Bash(node -e \"console.log\\(require\\(''/Users/sergio/Desktop/PROYECTOS/ASTRO/CDF-LAMORAÑA/node_modules/vite/package.json''\\).version\\)\")",
+      "Bash(/Users/sergio/.bun/bin/bun -e \"import ''vite/internal''\")",
+      "Bash(/Users/sergio/.bun/bin/bun -e \"const p = require\\(''/Users/sergio/Desktop/PROYECTOS/ASTRO/CDF-LAMORAÑA/node_modules/vite/package.json''\\); console.log\\(JSON.stringify\\(Object.keys\\(p.exports || {}\\).filter\\(k => k.includes\\(''internal''\\)\\)\\)\\)\")",
+      "Bash(/Users/sergio/.bun/bin/bun test:*)"
+    ]
+  }
+}
