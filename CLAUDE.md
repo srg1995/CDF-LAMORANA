@@ -33,7 +33,13 @@ No test suite is configured.
 
 ### PocketBase integration
 
-`src/lib/pocketbase.ts` exports a singleton PocketBase client reading `PUBLIC_POCKETBASE_URL` (defaults to `http://127.0.0.1:8090`). PocketBase must be running locally for admin features to work.
+`src/lib/pocketbase.ts` exports a singleton PocketBase client reading `PUBLIC_POCKETBASE_URL`. 
+
+**Backend:** PocketBase está desplegado en Railway usando el repositorio [srg1995/pocketbase-railway](https://github.com/srg1995/pocketbase-railway).
+
+**Configuración:**
+- Production: URL del Railway (ej. `https://your-app.railway.app`)
+- Development: Puede usar la instancia Railway o ejecutar PocketBase localmente en `http://127.0.0.1:8090`
 
 ### Collections used
 
