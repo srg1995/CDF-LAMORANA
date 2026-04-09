@@ -8,6 +8,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [react()],
   vite: {
+    // @ts-ignore - Tailwind Vite plugin type mismatch (known issue)
     plugins: [tailwindcss()],
   },
 });
