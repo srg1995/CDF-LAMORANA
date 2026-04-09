@@ -87,12 +87,21 @@ export default function GestionJornada() {
   const todosSeleccionados = pescadores.length > 0 && seleccionados.size === pescadores.length;
 
   return (
-    <div className="space-y-6">
+    <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6">
+      {/* Card Header */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
+            📅 Registro de jornada
+          </h2>
+          <p className="text-slate-400 text-xs mt-1">
+            Selecciona los pescadores y exporta la lista
+          </p>
+        </div>
+      </div>
+
       {/* Inputs jornada */}
-      <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4">
-        <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
-          Datos de la jornada
-        </h2>
+      <div className="space-y-4 mb-6 pb-6 border-b border-slate-700">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="lugar" className="block text-sm font-medium text-slate-300 mb-1.5">
@@ -123,7 +132,7 @@ export default function GestionJornada() {
       </div>
 
       {/* Cabecera tabla + botón export */}
-      <div className="flex items-center justify-between gap-4 flex-wrap">
+      <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
         <p className="text-sm text-slate-400">
           {seleccionados.size > 0 ? (
             <span className="text-sky-400 font-medium">{seleccionados.size} pescador{seleccionados.size !== 1 ? 'es' : ''} seleccionado{seleccionados.size !== 1 ? 's' : ''}</span>
@@ -145,19 +154,19 @@ export default function GestionJornada() {
 
       {/* Tabla */}
       {cargando ? (
-        <div className="text-center py-16 text-slate-400 text-sm">Cargando pescadores…</div>
+        <div className="text-center py-12 text-slate-400 text-sm">Cargando pescadores…</div>
       ) : error ? (
-        <div className="text-center py-16 text-red-400 text-sm bg-red-400/10 border border-red-400/20 rounded-xl px-6">
+        <div className="text-center py-12 text-red-400 text-sm bg-red-400/10 border border-red-400/20 rounded-xl px-6">
           {error}
         </div>
       ) : pescadores.length === 0 ? (
-        <div className="text-center py-16 text-slate-400 text-sm">
+        <div className="text-center py-12 text-slate-400 text-sm">
           No hay pescadores en la base de datos.
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-2xl border border-slate-700">
+        <div className="overflow-x-auto rounded-lg border border-slate-700">
           <table className="w-full text-sm text-left">
-            <thead className="bg-slate-800 text-slate-400 uppercase text-xs tracking-wider">
+            <thead className="bg-slate-700/50 text-slate-400 uppercase text-xs tracking-wider">
               <tr>
                 <th className="px-4 py-3 w-10">
                   <input
@@ -187,7 +196,7 @@ export default function GestionJornada() {
                     className={`cursor-pointer transition-colors ${
                       activo
                         ? 'bg-sky-900/30 hover:bg-sky-900/40'
-                        : 'bg-slate-900 hover:bg-slate-800'
+                        : 'bg-slate-900/50 hover:bg-slate-800'
                     }`}
                   >
                     <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>

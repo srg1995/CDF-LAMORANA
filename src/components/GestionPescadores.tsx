@@ -10,6 +10,7 @@ interface Pescador {
   num_federativa: string;
   num_licencia: string;
   anio_nacimiento: number;
+  telefono?: string;
 }
 
 interface PescadorFormData {
@@ -20,6 +21,7 @@ interface PescadorFormData {
   num_federativa: string;
   num_licencia: string;
   anio_nacimiento: string;
+  telefono: string;
 }
 
 const anioActual = new Date().getFullYear();
@@ -36,6 +38,7 @@ const formDataVacio: PescadorFormData = {
   num_federativa: '',
   num_licencia: '',
   anio_nacimiento: '',
+  telefono: '',
 };
 
 export default function GestionPescadores() {
@@ -47,6 +50,7 @@ export default function GestionPescadores() {
   const [formData, setFormData] = useState<PescadorFormData>(formDataVacio);
   const [enviando, setEnviando] = useState(false);
   const [editandoInline, setEditandoInline] = useState<Record<string, Partial<Pescador>>>({});
+  const [expandido, setExpandido] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     cargarPescadores();
@@ -94,6 +98,7 @@ export default function GestionPescadores() {
         num_federativa: formData.num_federativa.trim(),
         num_licencia: formData.num_licencia.trim(),
         anio_nacimiento: parseInt(formData.anio_nacimiento, 10),
+        telefono: formData.telefono.trim(),
       };
 
       if (editandoId) {
@@ -170,7 +175,7 @@ export default function GestionPescadores() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">
-              🎣 Gestión de pescadores
+              👥 Socios
             </h2>
             <p className="text-slate-400 text-xs mt-1">
               {pescadores.length} pescador{pescadores.length !== 1 ? 'es' : ''} registrado{pescadores.length !== 1 ? 's' : ''}
@@ -202,12 +207,53 @@ export default function GestionPescadores() {
           <div className="space-y-3">
             {pescadores.map((p) => {
               const enEdicion = editandoInline[p.id];
+              const esExpandido = expandido.has(p.id);
               return (
                 <div
                   key={p.id}
-                  className="bg-slate-700/50 hover:bg-slate-700/70 border border-slate-600 rounded-lg p-4 transition"
+                  className="bg-slate-700/50 border border-slate-600 rounded-lg transition"
                 >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
+                  {/* Header colapsable */}
+                  <button
+                    onClick={() => {
+                      setExpandido((prev) => {
+                        const next = new Set(prev);
+                        if (next.has(p.id)) {
+                          next.delete(p.id);
+                        } else {
+                          next.add(p.id);
+                        }
+                        return next;
+                      });
+                    }}
+                    className="w-full flex items-center justify-between p-4 hover:bg-slate-700/70 transition text-left"
+                  >
+                    <div className="flex items-center gap-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className={`w-5 h-5 text-slate-400 transition-transform ${
+                          esExpandido ? 'rotate-90' : ''
+                        }`}
+                      >
+                        <path fillRule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-white font-medium">
+                        {p.nombre} {p.apellido1} {p.apellido2}
+                      </span>
+                    </div>
+                    {p.telefono && (
+                      <span className="text-slate-400 text-sm">
+                        {p.telefono}
+                      </span>
+                    )}
+                  </button>
+
+                  {/* Contenido expandido */}
+                  {esExpandido && (
+                    <div className="px-4 pb-4 pt-0 border-t border-slate-600">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-3 mt-4">
                     {/* Nombre */}
                     <div>
                       <label className="block text-xs font-medium text-slate-400 mb-1">Nombre</label>
@@ -285,67 +331,79 @@ export default function GestionPescadores() {
                       />
                     </div>
 
-                    {/* Estado Menor */}
+                    {/* Teléfono */}
                     <div>
-                      <label className="block text-xs font-medium text-slate-400 mb-1">Estado</label>
-                      <div className="mt-2">
-                        {esMenor(enEdicion?.anio_nacimiento ?? p.anio_nacimiento) ? (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-400/15 text-amber-400 border border-amber-400/20">
-                            Menor de edad
-                          </span>
-                        ) : (
-                          <span className="text-slate-400 text-xs">Mayor de edad</span>
-                        )}
-                      </div>
+                      <label className="block text-xs font-medium text-slate-400 mb-1">Teléfono</label>
+                      <input
+                        type="tel"
+                        value={enEdicion?.telefono ?? p.telefono ?? ''}
+                        onChange={(e) => actualizarCampoInline(p.id, 'telefono', e.target.value)}
+                        className="w-full bg-slate-600 border border-slate-500 rounded px-2.5 py-1.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition"
+                      />
+                    </div>
+
+                    {/* Mayor de edad */}
+                    <div className="flex items-end">
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={!esMenor(enEdicion?.anio_nacimiento ?? p.anio_nacimiento)}
+                          disabled
+                          className="rounded border-slate-500 bg-slate-600 text-sky-500"
+                        />
+                        <span className="text-xs font-medium text-slate-400">Mayor de edad</span>
+                      </label>
                     </div>
                   </div>
 
-                  {/* Botones */}
-                  <div className="flex gap-2 justify-end">
-                    {Object.keys(editandoInline).includes(p.id) ? (
-                      <>
-                        <button
-                          onClick={() => guardarCambioInline(p.id)}
-                          className="text-xs px-3 py-1.5 rounded bg-green-600 hover:bg-green-700 text-white font-medium transition"
-                        >
-                          Guardar
-                        </button>
-                        <button
-                          onClick={() =>
-                            setEditandoInline((prev) => {
-                              const next = { ...prev };
-                              delete next[p.id];
-                              return next;
-                            })
-                          }
-                          className="text-xs px-3 py-1.5 rounded bg-slate-600 hover:bg-slate-500 text-white font-medium transition"
-                        >
-                          Cancelar
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => {
-                            // Activar edición inline
-                            setEditandoInline((prev) => ({
-                              ...prev,
-                              [p.id]: {},
-                            }));
-                          }}
-                          className="text-xs px-3 py-1.5 rounded bg-sky-600 hover:bg-sky-700 text-white font-medium transition"
-                        >
-                          Editar
-                        </button>
-                        <button
-                          onClick={() => eliminarPescador(p.id)}
-                          className="text-xs px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600/30 text-red-400 font-medium transition border border-red-600/30"
-                        >
-                          Eliminar
-                        </button>
-                      </>
-                    )}
-                  </div>
+                      {/* Botones */}
+                      <div className="flex gap-2 justify-end">
+                        {Object.keys(editandoInline).includes(p.id) ? (
+                          <>
+                            <button
+                              onClick={() => guardarCambioInline(p.id)}
+                              className="text-xs px-3 py-1.5 rounded bg-green-600 hover:bg-green-700 text-white font-medium transition"
+                            >
+                              Guardar
+                            </button>
+                            <button
+                              onClick={() =>
+                                setEditandoInline((prev) => {
+                                  const next = { ...prev };
+                                  delete next[p.id];
+                                  return next;
+                                })
+                              }
+                              className="text-xs px-3 py-1.5 rounded bg-slate-600 hover:bg-slate-500 text-white font-medium transition"
+                            >
+                              Cancelar
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => {
+                                // Activar edición inline
+                                setEditandoInline((prev) => ({
+                                  ...prev,
+                                  [p.id]: {},
+                                }));
+                              }}
+                              className="text-xs px-3 py-1.5 rounded bg-sky-600 hover:bg-sky-700 text-white font-medium transition"
+                            >
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => eliminarPescador(p.id)}
+                              className="text-xs px-3 py-1.5 rounded bg-red-600/20 hover:bg-red-600/30 text-red-400 font-medium transition border border-red-600/30"
+                            >
+                              Eliminar
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -464,6 +522,21 @@ export default function GestionPescadores() {
                   onChange={(e) => setFormData({ ...formData, anio_nacimiento: e.target.value })}
                   className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition"
                   placeholder="1980"
+                />
+              </div>
+
+              {/* Teléfono */}
+              <div>
+                <label htmlFor="modal-telefono" className="block text-sm font-medium text-slate-300 mb-1">
+                  Teléfono
+                </label>
+                <input
+                  id="modal-telefono"
+                  type="tel"
+                  value={formData.telefono}
+                  onChange={(e) => setFormData({ ...formData, telefono: e.target.value })}
+                  className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition"
+                  placeholder="+34 612 345 678"
                 />
               </div>
             </div>

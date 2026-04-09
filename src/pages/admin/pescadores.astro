@@ -1,5 +1,6 @@
 ---
 import '../../styles/global.css';
+import GestionPescadores from '../../components/GestionPescadores';
 ---
 
 <!doctype html>
@@ -8,7 +9,7 @@ import '../../styles/global.css';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="robots" content="noindex, nofollow" />
-    <title>Gestión — CDF-LAMORAÑA</title>
+    <title>Pescadores — CDF-LAMORAÑA</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body class="min-h-full bg-slate-900 font-sans antialiased text-white">
@@ -18,8 +19,13 @@ import '../../styles/global.css';
       <!-- Cabecera -->
       <div class="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 class="text-2xl font-extrabold text-white">Gestión</h1>
-          <p class="text-slate-400 text-sm mt-0.5">Socios y jornadas de pesca</p>
+          <a href="/admin" class="text-xs text-slate-500 hover:text-slate-300 transition">
+            ← Gestión
+          </a>
+          <h1 class="text-2xl font-extrabold text-white mt-1">Pescadores</h1>
+          <p class="text-slate-400 text-sm mt-0.5">
+            Gestiona los socios del club
+          </p>
         </div>
         <button
           id="logout-btn"
@@ -29,20 +35,8 @@ import '../../styles/global.css';
         </button>
       </div>
 
-      <!-- Grid de cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Card Pescadores -->
-        <a href="/admin/pescadores" class="block p-6 bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-500 hover:bg-slate-750 transition">
-          <h2 class="text-xl font-bold text-white mb-2">Pescadores</h2>
-          <p class="text-slate-400 text-sm">Gestionar socios, editar información y licencias</p>
-        </a>
-
-        <!-- Card Jornadas -->
-        <a href="/admin/jornadas" class="block p-6 bg-slate-800 rounded-lg border border-slate-700 hover:border-slate-500 hover:bg-slate-750 transition">
-          <h2 class="text-xl font-bold text-white mb-2">Jornadas</h2>
-          <p class="text-slate-400 text-sm">Crear y gestionar jornadas de pesca</p>
-        </a>
-      </div>
+      <!-- Isla React -->
+      <GestionPescadores client:load />
 
     </div>
 
